@@ -9,3 +9,28 @@ version = '1.0'
 application {
     mainClass = 'com.craftinginterpreters.lox.Lox'
 }
+
+tasks.named("run") {
+    standardInput = System.in
+}
+
+// Task to generate a temporary PATH script
+tasks.register('addDistScript') {
+    group = "run"
+    description = "Generates a script to temporarily add jlox to PATH"
+
+    doLast {
+        def scriptFile = layout.buildDirectory.file("jlox-env.sh").get().asFile
+        def distBin = layout.buildDirectory.dir("install/jlox/bin").get().asFile
+
+        scriptFile.text = "export PATH=${distBin}:\$PATH"
+        println "Temporary PATH script generated: ${scriptFile}"
+        println "Run `source ${scriptFile}` to add jlox to your PATH for this shell session."
+    }
+}
+
+// Make build automatically install the distribution
+tasks.build {
+    dependsOn tasks.installDist
+    finalizedBy tasks.addDistScript
+}
