@@ -8,6 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Lox {
+
+    private static boolean hadError = false;
+
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
             System.out.println("Usage: jlox [script]");
@@ -22,6 +25,7 @@ public class Lox {
     private static void runFile(final String path) throws IOException {
         final byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
+        if (hadError) System.exit(65);
     }
 
     private static void runPrompt() throws IOException {
@@ -33,11 +37,23 @@ public class Lox {
             final String line = reader.readLine();
             if (line == null) break;
             run(line);
+
+            // reset session
+            hadError = false;
         }
     }
 
     private static void run(final String source) {
         System.out.println("lox: " + source);
+    }
+
+    static void error(final int line, final String message) {
+        report(line, "", message);
+    }
+
+    private static void report(final int line, final String where, final String message) {
+        System.err.println("[line " + line + "] Error" + where + ": " + message);
+        hadError = true;
     }
 }
 
