@@ -9,15 +9,20 @@ I built the SQL parsing and transpiling library for [IoT SiteWise Query Language
 ## jlox - Java based interpreter for lox
 
 1. Setting up `gradle` for Mac
-`brew install gradle`
+
+   `brew install gradle`
 
 2. Build `jlox` interpreter
-`cd jlox && ./gradlew build`
+
+   `cd jlox && ./gradlew build`
 
 3. Add `jlox` to your environment temporarily
-You could run `jlox` using the long format like `./gradlew run` or `build/install/jlox/bin/jlox <fname>`. 
+
+   You could run `jlox` using the long format like `./gradlew run` or `build/install/jlox/bin/jlox <fname>`. 
 Second option is possible because we configured Gradle to create a distribution. 
-But, it is much easier to have the distribution in our path. Run `source build/jlox-env.sh` to add `jlox` to your env
+But, it is much easier to have the distribution in our path. 
+   
+   Run `source build/jlox-env.sh` to add `jlox` to your env
 
 4. Run instructions 
    1. To enter REPL mode: `jlox`
