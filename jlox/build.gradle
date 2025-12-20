@@ -10,9 +10,40 @@ application {
     mainClass = 'com.craftinginterpreters.lox.Lox'
 }
 
+def generatedSrcDir = layout.buildDirectory.dir("generated-src/main/java")
+
+sourceSets {
+    tool {
+        java.srcDir('src/tool/java')
+    }
+    main {
+        java.srcDir(generatedSrcDir)
+    }
+}
+
+tasks.register('generateAst', JavaExec) {
+    group = "code generation"
+    description = "Generates AST classes for Lox based on the BNF grammar"
+
+    classpath = sourceSets.tool.runtimeClasspath
+    mainClass = 'com.craftinginterpreters.tool.GenerateAst'
+
+    args(generatedSrcDir.get().asFile.absolutePath)
+    outputs.dir(generatedSrcDir)
+
+}
+
+tasks.named('compileJava') {
+    dependsOn(tasks.named('generateAst'))
+}
+
 tasks.named("run") {
+    doFirst {
+        logger.lifecycle("Starting jlox REPL (Ctrl-D to exit)")
+    }
     standardInput = System.in
 }
+
 
 // Task to generate a temporary PATH script
 tasks.register('addDistScript') {
@@ -33,4 +64,9 @@ tasks.register('addDistScript') {
 tasks.build {
     dependsOn tasks.installDist
     finalizedBy tasks.addDistScript
+}
+
+
+tasks.named('clean') {
+    delete(layout.buildDirectory.dir("generated-src"))
 }
