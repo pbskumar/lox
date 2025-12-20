@@ -1,20 +1,21 @@
-package com.craftinginterpreters.lox.scanner;
+package com.craftinginterpreters.lox.common.scanner;
 
-import com.craftinginterpreters.lox.Lox;
-import com.craftinginterpreters.lox.token.Token;
-import com.craftinginterpreters.lox.token.TokenType;
+import com.craftinginterpreters.lox.common.ProblemReporter;
+import com.craftinginterpreters.lox.common.token.Token;
+import com.craftinginterpreters.lox.common.token.TokenType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.craftinginterpreters.lox.token.TokenType.*;
+import static com.craftinginterpreters.lox.common.token.TokenType.*;
 
 public class Scanner {
 
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
+    private final ProblemReporter reporter;
 
     private int start = 0;
     private int current = 0;
@@ -51,8 +52,9 @@ public class Scanner {
         keywords.put("while", WHILE);
     }
 
-    public Scanner(final String source) {
+    public Scanner(final String source, final ProblemReporter reporter) {
         this.source = source;
+        this.reporter = reporter;
     }
 
     public List<Token> scanTokens() {
@@ -143,7 +145,7 @@ public class Scanner {
                 } else if (isAlpha(c)) {
                     identifier();
                 } else {
-                    Lox.error(line, " [Column: " +  current + "] ", "Unexpected character (" + c + ")");
+                    reporter.error(line, " [Column: " +  current + "] ", "Unexpected character (" + c + ")");
                 }
                 break;
         }
@@ -192,7 +194,7 @@ public class Scanner {
         }
 
         if (isAtEnd()) {
-            Lox.error(line, "Unterminated string.");
+            reporter.error(line, "Unterminated string.");
             return;
         }
 

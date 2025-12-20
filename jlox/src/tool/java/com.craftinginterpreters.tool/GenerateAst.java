@@ -41,26 +41,22 @@ public class GenerateAst {
             writer.write("package com.craftinginterpreters.lox.ast;");
             writer.newLine(); writer.newLine();
 
-            writer.write("import com.craftinginterpreters.lox.token.Token;");
+            writer.write("import com.craftinginterpreters.lox.common.token.Token;");
             writer.newLine(); writer.newLine();
 
-            writer.write("import java.util.List;");
-            writer.newLine(); writer.newLine();
-
-            writer.write("abstract class %s {".formatted(baseName));
+            writer.write("public abstract class %s {".formatted(baseName));
             writer.newLine();
 
-            defineVisitor(writer, baseName, types);
+            defineVisitorInterface(writer, baseName, types);
 
             // Adds base accept() method
             writer.newLine();;
-            writer.write("\tabstract <R> R accept(Visitor<R> visitor);");
+            writer.write("\tpublic abstract <R> R accept(Visitor<R> visitor);");
             writer.newLine(); writer.newLine();
 
             // AST types
             for (final String type : types) {
                 final List<String> grammar = Stream.of(type.split(":")).map(String::trim).toList();
-                if (grammar.size() != 2) continue;
                 // Dirty way to get the strings
                 final String className = grammar.getFirst().trim();
                 final String fields = grammar.getLast().trim();
@@ -73,12 +69,12 @@ public class GenerateAst {
 
     }
 
-    private static void defineVisitor(final BufferedWriter writer,
-                                      final String baseName,
-                                      final List<String> types) throws IOException {
+    private static void defineVisitorInterface(final BufferedWriter writer,
+                                               final String baseName,
+                                               final List<String> types) throws IOException {
 
         writer.newLine();
-        writer.write("\tinterface Visitor<R> {");
+        writer.write("\tpublic interface Visitor<R> {");
         writer.newLine();
 
         for (final String type: types) {
@@ -99,35 +95,33 @@ public class GenerateAst {
                                    final String fieldList) throws IOException {
 
         writer.newLine();
-        writer.write("\tstatic class %s extends %s {".formatted(className, baseName));
+        writer.write("\tpublic class %s extends %s {".formatted(className, baseName));
         writer.newLine();
 
-        final LinkedHashMap<String, String> fields = Arrays.stream(
+        final List<Map.Entry<String, String>> fields = Arrays.stream(
                 fieldList.split(","))
                 .map(String::strip)
-                .map(f -> f.split("\\s+"))
-                .collect(Collectors.toMap(
-                        parts -> parts[0].strip(),
-                        parts -> parts[1].strip(),
-                        (a, b) -> a,
-                        LinkedHashMap::new
-                ));
+                .map(f -> {
+                    String[] parts = f.split("\\s+");
+                    return Map.entry(parts[0], parts[1]);
+                })
+                .toList();
 
         // Fields
-        for (final Map.Entry<String, String> entry: fields.sequencedEntrySet()) {
-            writer.write("\t\tfinal %s %s;".formatted(entry.getKey(), entry.getValue()));
+        for (final Map.Entry<String, String> entry: fields) {
+            writer.write("\t\tpublic final %s %s;".formatted(entry.getKey(), entry.getValue()));
             writer.newLine();
         }
         writer.newLine();
 
         // Constructor
-        final String constructorArgs = fields.sequencedEntrySet()
+        final String constructorArgs = fields
                 .stream().map((entry) -> "final %s %s".formatted(entry.getKey(), entry.getValue()))
                 .collect(Collectors.joining(", "));
         writer.write("\t\t%s(%s) {".formatted(className, constructorArgs));
         writer.newLine();
 
-        for (final Map.Entry<String, String> entry: fields.sequencedEntrySet()) {
+        for (final Map.Entry<String, String> entry: fields) {
             writer.write("\t\t\tthis.%s = %s;".formatted(entry.getValue(), entry.getValue()));
             writer.newLine();
         }
@@ -138,7 +132,7 @@ public class GenerateAst {
         writer.newLine();
         writer.write("\t\t@Override");
         writer.newLine();
-        writer.write("\t\t<R> R accept(Visitor<R> visitor) {");
+        writer.write("\t\tpublic <R> R accept(Visitor<R> visitor) {");
         writer.newLine();
         writer.write("\t\t\treturn visitor.visit%s%s(this);".formatted(className, baseName));
         writer.newLine();

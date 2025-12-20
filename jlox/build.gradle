@@ -13,11 +13,21 @@ application {
 def generatedSrcDir = layout.buildDirectory.dir("generated-src/main/java")
 
 sourceSets {
+    common {
+        java.srcDir('src/common/java')
+    }
     tool {
         java.srcDir('src/tool/java')
+        compileClasspath += sourceSets.common.output
+        runtimeClasspath += sourceSets.common.output
     }
     main {
-        java.srcDir(generatedSrcDir)
+        java {
+            srcDir("src/main/java")
+            srcDir(generatedSrcDir)
+        }
+        compileClasspath += sourceSets.common.output
+        runtimeClasspath += sourceSets.common.output
     }
 }
 
@@ -44,6 +54,9 @@ tasks.named("run") {
     standardInput = System.in
 }
 
+tasks.named('jar') {
+    from(sourceSets.common.output)
+}
 
 // Task to generate a temporary PATH script
 tasks.register('addDistScript') {
