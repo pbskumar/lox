@@ -7,10 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,6 +50,14 @@ public class GenerateAst {
             writer.write("abstract class %s {".formatted(baseName));
             writer.newLine();
 
+            defineVisitor(writer, baseName, types);
+
+            // Adds base accept() method
+            writer.newLine();;
+            writer.write("\tabstract <R> R accept(Visitor<R> visitor);");
+            writer.newLine(); writer.newLine();
+
+            // AST types
             for (final String type : types) {
                 final List<String> grammar = Stream.of(type.split(":")).map(String::trim).toList();
                 if (grammar.size() != 2) continue;
@@ -66,6 +71,26 @@ public class GenerateAst {
             writer.newLine();
         }
 
+    }
+
+    private static void defineVisitor(final BufferedWriter writer,
+                                      final String baseName,
+                                      final List<String> types) throws IOException {
+
+        writer.newLine();
+        writer.write("\tinterface Visitor<R> {");
+        writer.newLine();
+
+        for (final String type: types) {
+            writer.newLine();
+            final String typeName = type.split(":")[0].trim();
+            writer.write("\t\tR visit%s%s(%s %s);".formatted(
+                    typeName, baseName, typeName, baseName.toLowerCase(Locale.ROOT)));
+            writer.newLine();
+        }
+
+        writer.write("\t}");
+        writer.newLine();
     }
 
     private static void defineType(final BufferedWriter writer,
@@ -108,6 +133,16 @@ public class GenerateAst {
         }
         writer.write("\t\t}");
         writer.newLine();
+
+        // visitor override
+        writer.newLine();
+        writer.write("\t\t@Override");
+        writer.newLine();
+        writer.write("\t\t<R> R accept(Visitor<R> visitor) {");
+        writer.newLine();
+        writer.write("\t\t\treturn visitor.visit%s%s(this);".formatted(className, baseName));
+        writer.newLine();
+        writer.write("\t\t}"); writer.newLine();
 
         writer.write("\t}");
         writer.newLine();
