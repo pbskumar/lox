@@ -5,7 +5,7 @@ import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.scanner.Scanner;
 import com.craftinginterpreters.lox.common.token.Token;
 import com.craftinginterpreters.lox.parser.Parser;
-import com.craftinginterpreters.lox.visitors.AstPrinter;
+import com.craftinginterpreters.lox.visitors.Interpreter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +16,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Lox {
+
+    private static final Interpreter interpreter = new Interpreter();
 
     public static void main(String[] args) throws IOException {
         switch (args.length) {
@@ -31,9 +33,15 @@ public class Lox {
         final byte[] bytes = Files.readAllBytes(Paths.get(path));
         final ProblemReporter problemReporter = new ProblemReporter();
         run(new String(bytes, Charset.defaultCharset()), problemReporter);
+
         if (problemReporter.hasErrors()) {
             problemReporter.printErrors();
             System.exit(65);
+        }
+
+        if (problemReporter.hasRuntimeErrors()) {
+            problemReporter.printRuntimeErrors();
+            System.exit(70);
         }
     }
 
@@ -49,10 +57,9 @@ public class Lox {
             run(line, reporter);
 
             // reset session
-            if (reporter.hasErrors()) {
-                reporter.printErrors();
-                reporter.clear();
-            };
+            reporter.printErrors();
+            reporter.printRuntimeErrors();
+            reporter.clear();
         }
     }
 
@@ -67,8 +74,7 @@ public class Lox {
         final Expr expression = parser.parse();
         if (reporter.hasErrors()) return;
 
-        System.out.println(new AstPrinter().print(expression));
-
+        interpreter.interpret(expression, reporter);
     }
 }
 

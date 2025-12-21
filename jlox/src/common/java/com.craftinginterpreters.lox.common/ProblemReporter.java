@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox.common;
 
+import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
 import com.craftinginterpreters.lox.common.token.TokenType;
 
@@ -9,6 +10,7 @@ import java.util.List;
 public final class ProblemReporter {
 
     private final List<String> errors = new ArrayList<>();
+    private final List<RuntimeError> runtimeErrors = new ArrayList<>();
 
     public void error(int line, String message) {
         report(line, "", message);
@@ -26,6 +28,10 @@ public final class ProblemReporter {
         }
     }
 
+    public void runtimeError(final RuntimeError error) {
+        this.runtimeErrors.add(error);
+    }
+
     private void report(int line, String where, String message) {
         errors.add("[line " + line + "] Error" + where + ": " + message);
     }
@@ -34,8 +40,16 @@ public final class ProblemReporter {
         return List.copyOf(errors);
     }
 
+    public List<RuntimeError> runtimeErrors() {
+        return List.copyOf(runtimeErrors);
+    }
+
     public boolean hasErrors() {
         return !errors.isEmpty();
+    }
+
+    public boolean hasRuntimeErrors() {
+        return !runtimeErrors.isEmpty();
     }
 
     // Bad idea. but, that's okay
@@ -43,7 +57,12 @@ public final class ProblemReporter {
         errors.forEach(System.out::println);
     }
 
+    public void printRuntimeErrors() {
+        runtimeErrors.forEach(e -> System.out.printf("RuntimeError: %s%n", e.getMessage()));
+    }
+
     public void clear() {
         errors.clear();
+        runtimeErrors.clear();
     }
 }
