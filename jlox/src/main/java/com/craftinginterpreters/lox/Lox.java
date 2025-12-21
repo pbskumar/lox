@@ -72,7 +72,7 @@ public class Lox {
 
         final Parser parser = new Parser(tokens, reporter);
         final Expr expression = parser.parse();
-        if (reporter.hasErrors()) return;
+        if (expression == null || reporter.hasErrors()) return;
 
         interpreter.interpret(expression, reporter);
     }

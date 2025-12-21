@@ -36,6 +36,9 @@ public class Parser {
 
     public Expr parse() {
         try {
+            if (tokens.size() == 1 && tokens.getFirst().type().equals(EOF)) {
+                return null;
+            }
             return expression();
         } catch (final ParseError error) {
             return null;
@@ -111,7 +114,7 @@ public class Parser {
             return new Expr.Grouping(expr);
         }
 
-        throw error(peek(), "Expect expression.");
+        throw error(peek(), "Expected an expression. Found %s".formatted(peek().type()));
     }
 
     private Token consume(final TokenType type, final String message) {
