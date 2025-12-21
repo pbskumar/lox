@@ -1,8 +1,11 @@
 package com.craftinginterpreters.lox;
 
+import com.craftinginterpreters.lox.ast.Expr;
 import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.scanner.Scanner;
 import com.craftinginterpreters.lox.common.token.Token;
+import com.craftinginterpreters.lox.parser.Parser;
+import com.craftinginterpreters.lox.visitors.AstPrinter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,10 +61,14 @@ public class Lox {
     private static void run(final String source, final ProblemReporter reporter) {
         final Scanner scanner = new Scanner(source, reporter);
         final List<Token> tokens = scanner.scanTokens();
+        if (reporter.hasErrors()) return;
 
-        for (final Token token : tokens) {
-            System.out.println("Token: " + token);
-        }
+        final Parser parser = new Parser(tokens, reporter);
+        final Expr expression = parser.parse();
+        if (reporter.hasErrors()) return;
+
+        System.out.println(new AstPrinter().print(expression));
+
     }
 }
 

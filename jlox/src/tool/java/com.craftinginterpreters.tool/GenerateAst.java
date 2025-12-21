@@ -95,7 +95,7 @@ public class GenerateAst {
                                    final String fieldList) throws IOException {
 
         writer.newLine();
-        writer.write("\tpublic class %s extends %s {".formatted(className, baseName));
+        writer.write("\tpublic static class %s extends %s {".formatted(className, baseName));
         writer.newLine();
 
         final List<Map.Entry<String, String>> fields = Arrays.stream(
@@ -118,7 +118,7 @@ public class GenerateAst {
         final String constructorArgs = fields
                 .stream().map((entry) -> "final %s %s".formatted(entry.getKey(), entry.getValue()))
                 .collect(Collectors.joining(", "));
-        writer.write("\t\t%s(%s) {".formatted(className, constructorArgs));
+        writer.write("\t\tpublic %s(%s) {".formatted(className, constructorArgs));
         writer.newLine();
 
         for (final Map.Entry<String, String> entry: fields) {
