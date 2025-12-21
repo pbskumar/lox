@@ -61,7 +61,9 @@ public class Interpreter implements Expr.Visitor<Object> {
             }
             case SLASH -> {
                 checkNumberOperands(expr.operator, left, right);
-                return (double) left / (double) right;
+                final Double result = (double) left / (double) right;
+                if (result.isNaN()) throw new RuntimeError(expr.operator, "0/0 is not not allowed.");
+                return result;
             }
             case STAR ->
             {
