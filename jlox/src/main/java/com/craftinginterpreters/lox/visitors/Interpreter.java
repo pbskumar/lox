@@ -52,6 +52,11 @@ public class Interpreter implements Expr.Visitor<Object> {
                     return ((String) left).concat((String) right);
                 }
 
+                // Allows "scone" + 4 = "scone4"
+                if (left instanceof String || right instanceof String) {
+                    return stringify(left) + stringify(right);
+                }
+
                 throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
             }
             case SLASH -> {
@@ -136,7 +141,7 @@ public class Interpreter implements Expr.Visitor<Object> {
 
         if (object instanceof Double) {
             final String text = object.toString();
-            if (text.endsWith(".)")) {
+            if (text.endsWith(".0")) {
                 return text.substring(0, text.length() - 2);
             }
             return text;
