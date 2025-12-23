@@ -29,6 +29,7 @@ public class GenerateAst {
         ));
 
         defineAst(outputDir, "Stmt", Arrays.asList(
+                "Block          : List<Stmt> statements",
                 "Expression     : Expr expression",
                 "Print          : Expr expression",
                 "Var            : Token name, Expr initializer"
@@ -52,13 +53,16 @@ public class GenerateAst {
             writer.write("import com.craftinginterpreters.lox.common.token.Token;");
             writer.newLine(); writer.newLine();
 
+            writer.write("import java.util.List;");
+            writer.newLine(); writer.newLine();
+
             writer.write("public abstract class %s {".formatted(baseName));
             writer.newLine();
 
             defineVisitorInterface(writer, baseName, types);
 
             // Adds base accept() method
-            writer.newLine();;
+            writer.newLine();
             writer.write("\tpublic abstract <R> R accept(Visitor<R> visitor);");
             writer.newLine(); writer.newLine();
 

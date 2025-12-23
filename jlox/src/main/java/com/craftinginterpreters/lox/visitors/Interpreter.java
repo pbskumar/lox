@@ -24,6 +24,12 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitBlockStmt(Stmt.Block stmt) {
+        executeBlock(stmt.statements, new Environment(environment));
+        return null;
+    }
+
+    @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
         evaluate(stmt.expression);
         return null;
@@ -163,6 +169,19 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     private void execute(final Stmt statement) {
         statement.accept(this);
+    }
+
+    private void executeBlock(final List<Stmt> statements, final Environment environment) {
+        final Environment previousEnv = this.environment;
+        try {
+            this.environment = environment;
+
+            for (final Stmt statement : statements) {
+                execute(statement);
+            }
+        } finally {
+            this.environment = previousEnv;
+        }
     }
 
     private void checkNumberOperand(final Token operator, final Object operand) {
