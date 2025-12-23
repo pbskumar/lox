@@ -24,6 +24,11 @@ public class Environment {
         // Book says REPL should allow it.
         // Rust allows shadowing... this is exactly that.
         // Maybe do a type check? IDK, let's see where this goes.
+
+        // How do we detect null assignment vs null coming from unassigned declaration?
+        // Maybe define a new type in grammar where Assignment is without a value??
+        // Or, create a Set in addition to the HashMap. Unassigned declarations are stored in the Set
+        // until an assignment is made. At which point, remove from set and put in HashMap.
         values.put(name, value);
     }
 
