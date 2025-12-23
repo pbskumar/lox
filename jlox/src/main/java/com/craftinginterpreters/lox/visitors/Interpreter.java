@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox.visitors;
 
+import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.ast.Expr;
 import com.craftinginterpreters.lox.ast.Stmt;
 import com.craftinginterpreters.lox.common.ProblemReporter;
@@ -9,6 +10,8 @@ import com.craftinginterpreters.lox.common.token.Token;
 import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+
+    private Environment environment = new Environment();
 
     public void interpret(final List<Stmt> statements, final ProblemReporter reporter) {
         try {
@@ -30,6 +33,18 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitPrintStmt(Stmt.Print stmt) {
         final Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
+        return null;
+    }
+
+    @Override
+    public Void visitVarStmt(Stmt.Var stmt) {
+        Object value = null;
+
+        if (stmt.initializer != null) {
+            value = evaluate(stmt.initializer);
+        }
+
+        environment.define(stmt.name.lexeme(), value);
         return null;
     }
 
@@ -128,6 +143,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             }
         }
         return null;
+    }
+
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr) {
+        return environment.get(expr.name);
     }
 
     private Object evaluate(Expr expr) {
