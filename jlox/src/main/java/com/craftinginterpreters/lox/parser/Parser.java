@@ -1,10 +1,12 @@
 package com.craftinginterpreters.lox.parser;
 
 import com.craftinginterpreters.lox.ast.Expr;
+import com.craftinginterpreters.lox.ast.Stmt;
 import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.token.Token;
 import com.craftinginterpreters.lox.common.token.TokenType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.craftinginterpreters.lox.common.token.TokenType.*;
@@ -34,19 +36,36 @@ public class Parser {
         this.reporter = reporter;
     }
 
-    public Expr parse() {
-        try {
-            if (tokens.size() == 1 && tokens.getFirst().type().equals(EOF)) {
-                return null;
-            }
-            return expression();
-        } catch (final ParseError error) {
-            return null;
+    public List<Stmt> parse() {
+        final List<Stmt> statements = new ArrayList<>();
+
+        while (!isAtEnd()) {
+            statements.add(statement());
         }
+
+        return statements;
     }
 
     private Expr expression() {
         return equality();
+    }
+
+    private Stmt statement() {
+        if (match(PRINT)) return printStatement();
+
+        return expressionStatement();
+    }
+
+    private Stmt expressionStatement() {
+        final Expr expr = expression();
+        consume(SEMICOLON, "Expected ';' after value.");
+        return new Stmt.Expression(expr);
+    }
+
+    private Stmt printStatement() {
+        final Expr value = expression();
+        consume(SEMICOLON, "Expected ';' after value in print statement.");
+        return new Stmt.Print(value);
     }
 
     private Expr equality() {

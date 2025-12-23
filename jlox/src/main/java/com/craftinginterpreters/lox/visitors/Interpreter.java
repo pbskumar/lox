@@ -1,19 +1,36 @@
 package com.craftinginterpreters.lox.visitors;
 
 import com.craftinginterpreters.lox.ast.Expr;
+import com.craftinginterpreters.lox.ast.Stmt;
 import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
 
-public class Interpreter implements Expr.Visitor<Object> {
+import java.util.List;
 
-    public void interpret(final Expr expression, final ProblemReporter reporter) {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+
+    public void interpret(final List<Stmt> statements, final ProblemReporter reporter) {
         try {
-            final Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            for (final Stmt statement : statements) {
+                execute(statement);
+            }
         } catch (final RuntimeError error) {
             reporter.runtimeError(error);
         }
+    }
+
+    @Override
+    public Void visitExpressionStmt(Stmt.Expression stmt) {
+        evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitPrintStmt(Stmt.Print stmt) {
+        final Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
+        return null;
     }
 
     @Override
@@ -113,13 +130,17 @@ public class Interpreter implements Expr.Visitor<Object> {
         return null;
     }
 
+    private Object evaluate(Expr expr) {
+        return expr.accept(this);
+    }
+
+    private void execute(final Stmt statement) {
+        statement.accept(this);
+    }
+
     private void checkNumberOperand(final Token operator, final Object operand) {
         if (operand instanceof Double) return;
         throw new RuntimeError(operator, "Operand must be a number.");
-    }
-
-    private Object evaluate(Expr expr) {
-        return expr.accept(this);
     }
 
     private boolean isTruthy(Object object) {

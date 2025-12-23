@@ -1,6 +1,7 @@
 package com.craftinginterpreters.lox;
 
 import com.craftinginterpreters.lox.ast.Expr;
+import com.craftinginterpreters.lox.ast.Stmt;
 import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.scanner.Scanner;
 import com.craftinginterpreters.lox.common.token.Token;
@@ -71,10 +72,10 @@ public class Lox {
         if (reporter.hasErrors()) return;
 
         final Parser parser = new Parser(tokens, reporter);
-        final Expr expression = parser.parse();
-        if (expression == null || reporter.hasErrors()) return;
+        final List<Stmt> statements = parser.parse();
+        if (statements.isEmpty() || reporter.hasErrors()) return;
 
-        interpreter.interpret(expression, reporter);
+        interpreter.interpret(statements, reporter);
     }
 }
 
