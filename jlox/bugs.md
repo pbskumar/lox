@@ -15,3 +15,7 @@ nil
 > print b + a;
 nilassigned  ---> this is not the correct behavior :|
 ```
+
+## REPL
+1. In REPL, `RuntimeError` kills the runtime :(
+2. Currently, does not output result of expression
