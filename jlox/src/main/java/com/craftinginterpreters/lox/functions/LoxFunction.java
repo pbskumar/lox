@@ -29,7 +29,7 @@ public class LoxFunction implements LoxCallable {
 
         interpreter.executeBlock(declaration.body, environment);
 
-        // No return values for now
+        // No return values for now (as in every call is returning nill for now by default)
         return null;
     }
 

@@ -3,5 +3,5 @@ fun sayHi(first, last) {
     print "Hi, " + first + " " + last + "!";
 }
 
-sayHi("Sravan", "P");
-
+var result = sayHi("Sravan", "P");
+print result;
