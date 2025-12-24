@@ -1,0 +1,10 @@
+var a = 2;
+var b;
+
+if (a > 5) {
+  b = 1;
+} else {
+  b = 3;
+}
+
+print b;
