@@ -24,6 +24,9 @@ nilassigned  ---> this is not the correct behavior :|
 These are mostly challenges from the chapters or ideas that I thought would be useful. 
 Will get to implement them after I finish the Tree-Walk Interpreter part of the book.
 
+## Functionality
+[ ] Support C style `++` and `--` 
+
 ### Scanning
 [ ] Add support for C-style block comments (`/* ... */`)
 [ ] Store comments. I think this would be useful in auto-doc generation.
@@ -37,4 +40,5 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 ### Control Flow
 [ ] Support `continue`, `break` statements
+
 
