@@ -21,7 +21,10 @@ These are mostly challenges from the chapters or ideas that I thought would be u
 Will get to implement them after I finish the Tree-Walk Interpreter part of the book.
 
 ### Functionality
-[ ] Comments are currently being parsed, but they a
+[ ] Comments are currently being parsed, but they are causing parsing errors
+    * This is because I deviated from the book and added comment Token in the scanner.
+    * For now, I'm reverting to the book state. 
+    * Will come back to implement comment handling correctly.
 [ ] Support C style `++` and `--`
 [ ] Supporting import statements
 [ ] Supporting packages - This is another system in itself. At least, figure out how it works in a basic way

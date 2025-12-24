@@ -116,12 +116,9 @@ public class Scanner {
             case '/':
                 // Comments
                 // TODO: Support /* */ comments
+                // TODO: Handle comments instead of discarding them
                 if (match('/')) {
                     while (peek() != '\n' && ! isAtEnd()) getCharAndAdvance();
-                    // Maybe I should give the comment with substring (start+2, current) to remove `//` from value stored
-                    // Can be updated based on the usage of comment.
-                    // Comments can be used to generate docs, in which case we only care about the actual text.
-                    addToken(COMMENT);
                 } else {
                     addToken(SLASH);
                 }
