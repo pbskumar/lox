@@ -26,6 +26,8 @@ import static com.craftinginterpreters.lox.common.token.TokenType.*;
 
 public class Parser {
 
+    public static final int FN_MAX_ARG_COUNT = 255;
+
     private static class ParseError extends RuntimeException { }
 
     private final ProblemReporter reporter;
@@ -274,7 +276,37 @@ public class Parser {
             Expr right = unary();
             return new Expr.Unary(operator, right);
         }
-        return primary();
+        return call();
+    }
+
+    private Expr call() {
+        Expr expr = primary();
+
+        while (true) {
+            if (match(LEFT_PAREN)) {
+                expr = finishCall(expr);
+            } else {
+                break;
+            }
+        }
+
+        return expr;
+    }
+
+    private Expr finishCall(Expr callee) {
+        final List<Expr> args = new ArrayList<>();
+
+        if (!check(RIGHT_PAREN)) {
+            do {
+                if (args.size() >= FN_MAX_ARG_COUNT) {
+                    error(peek(), "Can't have more than %d arguments".formatted(FN_MAX_ARG_COUNT));
+                }
+                args.add(expression());
+            } while (match(COMMA));
+        }
+
+        final Token paren = consume(RIGHT_PAREN, "Expect ')' after arguments.");
+        return new Expr.Call(callee, paren, args);
     }
 
     private Expr primary() {

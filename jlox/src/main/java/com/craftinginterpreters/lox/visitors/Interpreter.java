@@ -7,12 +7,21 @@ import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
 import com.craftinginterpreters.lox.common.token.TokenType;
+import com.craftinginterpreters.lox.functions.LoxCallable;
+import com.craftinginterpreters.lox.functions.system.time.Clock;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
-    private Environment environment = new Environment();
+    final Environment globals = new Environment();
+
+    private Environment environment = globals;
+
+    public Interpreter() {
+        globals.define("clock", new Clock());
+    }
 
     public void interpret(final List<Stmt> statements, final ProblemReporter reporter) {
         try {
@@ -144,6 +153,29 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         return null;
+    }
+
+    @Override
+    public Object visitCallExpr(Expr.Call expr) {
+        Object callee = evaluate(expr.callee);
+
+        final List<Object> args = new ArrayList<>();
+        for (Expr arg : expr.arguments) {
+            args.add(evaluate(arg));
+        }
+
+        if (!(callee instanceof LoxCallable callable)) {
+            throw new RuntimeError(expr.paren, "Can only call functions and classes");
+        }
+
+        if (args.size() != callable.arity()) {
+            throw new RuntimeError(
+                    expr.paren,
+                    "Expected %d arguments but got %d.".formatted(callable.arity(), args.size())
+            );
+        }
+
+        return callable.call(this, args);
     }
 
     private void checkNumberOperands(final Token operator, final Object left, final Object right) {
