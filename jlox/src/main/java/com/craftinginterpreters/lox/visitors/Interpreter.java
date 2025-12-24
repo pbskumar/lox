@@ -9,6 +9,7 @@ import com.craftinginterpreters.lox.common.token.Token;
 import com.craftinginterpreters.lox.common.token.TokenType;
 import com.craftinginterpreters.lox.functions.LoxCallable;
 import com.craftinginterpreters.lox.functions.LoxFunction;
+import com.craftinginterpreters.lox.functions.Return;
 import com.craftinginterpreters.lox.functions.system.time.Clock;
 
 import java.util.ArrayList;
@@ -69,6 +70,15 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         final Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
         return null;
+    }
+
+    @Override
+    public Void visitReturnStmt(Stmt.Return stmt) {
+        Object value = null;
+
+        if (stmt.value != null) value = evaluate(stmt.value);
+
+        throw new Return(value);
     }
 
     @Override

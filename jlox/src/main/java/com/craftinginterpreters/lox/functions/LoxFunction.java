@@ -27,9 +27,13 @@ public class LoxFunction implements LoxCallable {
             environment.define(declaration.params.get(i).lexeme(), arguments.get(i));
         }
 
-        interpreter.executeBlock(declaration.body, environment);
+        try {
+            interpreter.executeBlock(declaration.body, environment);
+        } catch (final Return returnValue) {
+            return returnValue.value;
+        }
 
-        // No return values for now (as in every call is returning nill for now by default)
+        // If there's no explicit return, then return `nil`
         return null;
     }
 

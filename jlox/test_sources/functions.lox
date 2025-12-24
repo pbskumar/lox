@@ -1,7 +1,49 @@
 // No-return function
+print "Processing function with no return values......";
 fun sayHi(first, last) {
     print "Hi, " + first + " " + last + "!";
 }
 
 var result = sayHi("Sravan", "P");
 print result;
+
+
+// Function with explicit returns
+fun sayHi2(first, last) {
+    print "Hi, " + first + " " + last + "!";
+    return;
+}
+
+var result2 = sayHi2("Sravan", "P");
+print result2;
+
+
+// Function with explicit returns
+fun sayHi3(first, last) {
+    print "Hi, " + first + " " + last + "!";
+    return nil;
+}
+
+var result3 = sayHi3("Sravan", "P");
+print result3;
+
+// Functions with a return value
+print "Processing function with a return value......";
+fun sum(a, b) {
+    return a + b;
+}
+
+print "Result of 2 + 3 is " + sum(2, 3);
+
+// Recursive functions
+print "Processing recursive functions with a return value......";
+fun fib(n) {
+    if (n <= 1) return n;
+    return fib(n - 2) + fib(n - 1);
+}
+
+for (var i = 0; i < 5; i = i + 1) {
+    print "fib(" + i + "): " + fib(i);
+}
+
+
