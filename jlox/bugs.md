@@ -16,16 +16,17 @@ nil
 nilassigned  ---> this is not the correct behavior :|
 ```
 
-## REPL
-1. In REPL, `RuntimeError` kills the runtime :(
-
-
 ## To-Dos for Tree-Walk Interpreter
 These are mostly challenges from the chapters or ideas that I thought would be useful. 
 Will get to implement them after I finish the Tree-Walk Interpreter part of the book.
 
-## Functionality
-[ ] Support C style `++` and `--` 
+### Functionality
+[ ] Support C style `++` and `--`
+[ ] Supporting import statements
+[ ] Supporting packages - This is another system in itself. At least, figure out how it works in a basic way
+[ ] Add test suite for all features in exec mode and REPL mode.
+[ ] `RuntimeError` kills the REPL runtime :(
+[ ] Allow multi-line input in REPL
 
 ### Scanning
 [ ] Add support for C-style block comments (`/* ... */`)
