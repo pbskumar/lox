@@ -1,0 +1,13 @@
+fun makeCounter() {
+    var i = 0;
+    fun count() {
+        i = i + 1;
+        print "Printing from count: " + i;
+        return i;
+    }
+    return count;
+}
+
+var counter = makeCounter();
+print "First call: " + counter();
+print "Second call:" + counter();
