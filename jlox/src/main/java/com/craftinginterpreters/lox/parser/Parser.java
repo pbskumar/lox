@@ -47,10 +47,27 @@ public class Parser {
     }
 
     private Stmt statement() {
+        if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
         return expressionStatement();
+    }
+
+    // Else is tagged to the closest if statement due to greedy parsing
+    private Stmt ifStatement() {
+        consume(LEFT_PAREN, "Expect '(' after 'if'.");
+        final Expr condition = expression();
+        consume(RIGHT_PAREN, "Expect ')' after if condition.");
+
+        final Stmt thenBranch = statement();
+        Stmt elseBranch = null;
+
+        if (match(ELSE)) {
+            elseBranch = statement();
+        }
+
+        return new Stmt.If(condition, thenBranch, elseBranch);
     }
 
     private List<Stmt> block() {
@@ -70,7 +87,7 @@ public class Parser {
     }
 
     private Expr assignment() {
-        Expr expr = equality();
+        Expr expr = or();
 
         if (match(EQUAL)) {
             Token equals = previous();
@@ -82,6 +99,28 @@ public class Parser {
             }
 
             error(equals, "Invalid assignment target");
+        }
+        return expr;
+    }
+
+    private Expr or() {
+        Expr expr = and();
+
+        while (match(OR)) {
+            Token op = previous();
+            Expr right = and();
+            expr = new Expr.Logical(expr, op, right);
+        }
+        return expr;
+    }
+
+    private Expr and() {
+        Expr expr = equality();
+
+        while (match(AND)) {
+            Token op = previous();
+            Expr right = equality();
+            expr = new Expr.Logical(expr, op, right);
         }
         return expr;
     }
