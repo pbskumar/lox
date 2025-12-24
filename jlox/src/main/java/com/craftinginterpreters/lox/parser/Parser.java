@@ -194,6 +194,7 @@ public class Parser {
 
     private Stmt declaration() {
         try {
+            if (match(FUN)) return function("function");
             if (match(VAR)) return varDeclaration();
             return statement();
         } catch (final ParseError error) {
@@ -206,6 +207,28 @@ public class Parser {
         final Expr expr = expression();
         consume(SEMICOLON, "Expected ';' after value.");
         return new Stmt.Expression(expr);
+    }
+
+    private Stmt.Function function(String kind) {
+        Token name = consume(IDENTIFIER, "Expect %s name.".formatted(kind));
+
+        consume(LEFT_PAREN, "Expect '(' after %s name.".formatted(kind));
+        List<Token> params = new ArrayList<>();
+        if (!check(RIGHT_PAREN)) {
+            do {
+                if (params.size() >= FN_MAX_ARG_COUNT) {
+                    error(peek(), "Cant' have more than %d parameters.".formatted(FN_MAX_ARG_COUNT));
+                }
+                params.add(consume(IDENTIFIER, "Expect parameter name."));
+            } while (match(COMMA));
+        }
+        consume(RIGHT_PAREN, "Expect ')' after parameters.");
+
+        consume(LEFT_BRACE, "Expect '{' before %s body.".formatted(kind));
+
+        List<Stmt> body = block();
+
+        return new Stmt.Function(name, params, body);
     }
 
     private Stmt printStatement() {

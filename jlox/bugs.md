@@ -21,6 +21,7 @@ These are mostly challenges from the chapters or ideas that I thought would be u
 Will get to implement them after I finish the Tree-Walk Interpreter part of the book.
 
 ### Functionality
+[ ] Comments are currently being parsed, but they a
 [ ] Support C style `++` and `--`
 [ ] Supporting import statements
 [ ] Supporting packages - This is another system in itself. At least, figure out how it works in a basic way

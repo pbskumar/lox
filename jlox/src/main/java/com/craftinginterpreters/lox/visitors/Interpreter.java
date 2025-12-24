@@ -8,6 +8,7 @@ import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
 import com.craftinginterpreters.lox.common.token.TokenType;
 import com.craftinginterpreters.lox.functions.LoxCallable;
+import com.craftinginterpreters.lox.functions.LoxFunction;
 import com.craftinginterpreters.lox.functions.system.time.Clock;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
-    final Environment globals = new Environment();
+    public final Environment globals = new Environment();
 
     private Environment environment = globals;
 
@@ -42,6 +43,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
         evaluate(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitFunctionStmt(Stmt.Function stmt) {
+        LoxFunction function = new LoxFunction(stmt);
+        // Registration and Scoping for inner and outer functions
+        environment.define(stmt.name.lexeme(), function);
         return null;
     }
 
@@ -237,7 +246,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         statement.accept(this);
     }
 
-    private void executeBlock(final List<Stmt> statements, final Environment environment) {
+    public void executeBlock(final List<Stmt> statements, final Environment environment) {
         final Environment previousEnv = this.environment;
         try {
             this.environment = environment;
