@@ -38,6 +38,8 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 [ ] Allow multi-line input in REPL
 
+[ ] Basic exception handling
+
 ### Scanning
 [ ] Add support for C-style block comments (`/* ... */`)
 

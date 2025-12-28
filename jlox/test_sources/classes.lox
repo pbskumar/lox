@@ -9,9 +9,13 @@ class RaspberrySorbet {
 print "Class: " + RaspberrySorbet;
 
 var s = RaspberrySorbet();
-
+var s2 =RaspberrySorbet(); 
 print "Instance: " + s;
 
 s.store = "Gelatiamo";
+s2.city = "Seattle";
 
 print "Store where RaspberrySorbet is available is: " + s.store;
+print "Store where RaspberrySorbet is available is located: " + s2.city;
+
+print s.city;
