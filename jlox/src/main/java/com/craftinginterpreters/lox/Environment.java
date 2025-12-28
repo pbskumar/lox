@@ -43,6 +43,26 @@ public class Environment {
         throw new RuntimeError(name, "Undefined variable '%s'.".formatted(name.lexeme()));
     }
 
+    public Object getAt(final Integer hops, final Token name) {
+        try {
+            return ancestor(hops).values.get(name.toString());
+        } catch (final RuntimeError error) {
+            throw new RuntimeError(name, "Undefined variable '%s'.".formatted(name));
+        }
+    }
+
+    private Environment ancestor(final Integer hops) {
+        Environment env = this;
+        for (int i = 0; i < hops; i++) {
+            // need to add a null check
+            if (env.enclosing == null) {
+                throw new RuntimeError("");
+            }
+            env = env.enclosing;
+        }
+        return env;
+    }
+
     public void assign(final Token name, final Object value) {
         if (values.containsKey(name.lexeme())) {
             values.put(name.lexeme(), value);
@@ -55,5 +75,9 @@ public class Environment {
         }
 
         throw new RuntimeError(name, "Undefined variable '%s'.".formatted(name.lexeme()));
+    }
+
+    public void assignAt(final int hops, final Token name, final Object value) {
+        ancestor(hops).values.put(name.lexeme(), value);
     }
 }

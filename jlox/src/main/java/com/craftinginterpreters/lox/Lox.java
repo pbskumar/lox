@@ -7,6 +7,7 @@ import com.craftinginterpreters.lox.common.scanner.Scanner;
 import com.craftinginterpreters.lox.common.token.Token;
 import com.craftinginterpreters.lox.parser.Parser;
 import com.craftinginterpreters.lox.visitors.Interpreter;
+import com.craftinginterpreters.lox.visitors.Resolver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -73,7 +74,11 @@ public class Lox {
 
         final Parser parser = new Parser(tokens, reporter);
         final List<Stmt> statements = parser.parse();
-        if (statements.isEmpty() || reporter.hasErrors()) return;
+        if (statements.isEmpty() || reporter.hasErrors() || reporter.hasRuntimeErrors()) return;
+
+        final Resolver resolver = new Resolver(interpreter, reporter);
+        resolver.resolve(statements);
+        if (reporter.hasErrors() || reporter.hasRuntimeErrors()) return;
 
         interpreter.interpret(statements, reporter);
     }

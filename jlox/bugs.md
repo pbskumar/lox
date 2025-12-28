@@ -56,4 +56,4 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 ### Resolving and binding
 [ ] Implement immutable env to use persistent data structures
-
+[ ] Extend resolver to report error if local variable is never used

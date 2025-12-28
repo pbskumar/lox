@@ -10,4 +10,9 @@ public class RuntimeError extends RuntimeException {
         super(message);
         this.token = token;
     }
+
+    public RuntimeError(final String message) {
+        super(message);
+        this.token = null;
+    }
 }
