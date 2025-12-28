@@ -6,8 +6,12 @@ class RaspberrySorbet {
     }
 }
 
-print RaspberrySorbet;
+print "Class: " + RaspberrySorbet;
 
 var s = RaspberrySorbet();
 
-print s;
+print "Instance: " + s;
+
+s.store = "Gelatiamo";
+
+print "Store where RaspberrySorbet is available is: " + s.store;
