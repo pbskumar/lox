@@ -1,0 +1,37 @@
+// Test 1
+
+var a = "outer";
+{
+    var a = "inner"; 
+    print a; // inner expected
+    a = "inner-2";
+    print a; // inner-2 expected
+
+    var b = "inner-b";
+}
+
+print a; // outer expected
+// print b; // throw undefined variable 
+
+
+// Test 2
+
+var a = "global";
+{
+
+    fun showA() {
+        print a;
+    }
+    
+    showA();
+    var a = "block";
+    showA(); // expected global. but due to incorrect implementation, it shows block for now
+}
+
+// Test 3 - Disallow duplicate declaration
+fun bad() {
+ var b = "h";
+ var b = "s";
+}
+
+// bad(); // Expect exception

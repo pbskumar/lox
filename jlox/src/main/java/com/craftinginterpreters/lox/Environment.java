@@ -45,7 +45,7 @@ public class Environment {
 
     public Object getAt(final Integer hops, final Token name) {
         try {
-            return ancestor(hops).values.get(name.toString());
+            return ancestor(hops).values.get(name.lexeme());
         } catch (final RuntimeError error) {
             throw new RuntimeError(name, "Undefined variable '%s'.".formatted(name));
         }
