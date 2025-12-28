@@ -7,3 +7,7 @@ class RaspberrySorbet {
 }
 
 print RaspberrySorbet;
+
+var s = RaspberrySorbet();
+
+print s;
