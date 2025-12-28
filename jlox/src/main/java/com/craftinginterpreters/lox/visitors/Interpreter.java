@@ -4,6 +4,7 @@ import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.ast.Expr;
 import com.craftinginterpreters.lox.ast.Stmt;
 import com.craftinginterpreters.lox.callables.classes.LoxClass;
+import com.craftinginterpreters.lox.callables.classes.LoxInstance;
 import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
@@ -218,6 +219,16 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         return callable.call(this, args);
+    }
+
+    @Override
+    public Object visitGetExpr(Expr.Get expr) {
+        Object object = evaluate(expr.object);
+
+        if (object instanceof LoxInstance instance) {
+            return instance.get(expr.name);
+        }
+        return null;
     }
 
     private void checkNumberOperands(final Token operator, final Object left, final Object right) {
