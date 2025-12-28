@@ -1,6 +1,6 @@
-package com.craftinginterpreters.lox.functions.system.time;
+package com.craftinginterpreters.lox.callables.functions.system.time;
 
-import com.craftinginterpreters.lox.functions.LoxCallable;
+import com.craftinginterpreters.lox.callables.LoxCallable;
 import com.craftinginterpreters.lox.visitors.Interpreter;
 
 import java.util.List;

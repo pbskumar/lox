@@ -1,4 +1,4 @@
-package com.craftinginterpreters.lox.functions;
+package com.craftinginterpreters.lox.callables;
 
 import com.craftinginterpreters.lox.visitors.Interpreter;
 

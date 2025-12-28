@@ -1,7 +1,8 @@
-package com.craftinginterpreters.lox.functions;
+package com.craftinginterpreters.lox.callables.functions;
 
 import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.ast.Stmt;
+import com.craftinginterpreters.lox.callables.LoxCallable;
 import com.craftinginterpreters.lox.visitors.Interpreter;
 
 import java.util.List;

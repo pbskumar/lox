@@ -1,4 +1,4 @@
-package com.craftinginterpreters.lox.classes;
+package com.craftinginterpreters.lox.callables.classes;
 
 public class LoxClass {
 
