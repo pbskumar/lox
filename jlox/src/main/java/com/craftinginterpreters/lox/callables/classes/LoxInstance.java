@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox.callables.classes;
 
+import com.craftinginterpreters.lox.callables.functions.LoxFunction;
 import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
 
@@ -24,6 +25,10 @@ public class LoxInstance {
         if (fields.containsKey(name.lexeme())) {
             return fields.get(name.lexeme());
         }
+
+        final LoxFunction method = klass.findMethod(name.lexeme());
+        if (method != null) return method;
+
         throw new RuntimeError(name, "Undefined property '%s'.".formatted(name.lexeme()));
     }
 

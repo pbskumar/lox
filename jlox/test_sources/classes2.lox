@@ -1,0 +1,17 @@
+class Chips {
+    eat() {
+        print "munch crunch";
+    }
+}
+
+Chips().eat();
+
+var c = Chips();
+
+fun sayHello(name) {
+    print "hello, " + name + "!";
+}
+
+c.hello = sayHello;
+
+c.hello("pbs");
