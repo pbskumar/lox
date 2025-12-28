@@ -3,6 +3,7 @@ package com.craftinginterpreters.lox.visitors;
 import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.ast.Expr;
 import com.craftinginterpreters.lox.ast.Stmt;
+import com.craftinginterpreters.lox.classes.LoxClass;
 import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
@@ -45,6 +46,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitBlockStmt(Stmt.Block stmt) {
         executeBlock(stmt.statements, new Environment(environment));
+        return null;
+    }
+
+    @Override
+    public Void visitClassStmt(Stmt.Class stmt) {
+        environment.define(stmt.name.lexeme(), null);
+        final LoxClass klass = new LoxClass(stmt.name.lexeme());
+        environment.assign(stmt.name, klass);
         return null;
     }
 

@@ -1,0 +1,9 @@
+// Simple declaration
+
+class RaspberrySorbet {
+    serveOn() {
+        return "Cake";
+    }
+}
+
+print RaspberrySorbet;
