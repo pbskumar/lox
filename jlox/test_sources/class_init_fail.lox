@@ -1,0 +1,6 @@
+class Foo {
+    init(a) {
+        this.a = a;
+        return this;
+    }
+}

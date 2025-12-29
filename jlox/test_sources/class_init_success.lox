@@ -1,0 +1,10 @@
+class Foo {
+    init(a) {
+        this.a = a;
+        return;
+    }
+}
+
+var f = Foo(5);
+
+print f;
