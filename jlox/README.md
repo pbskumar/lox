@@ -42,6 +42,9 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 [ ] Basic exception handling
 
+[ ] Add basic library functions:
+  * think about what makes sense to add.
+
 ### Scanning
 [ ] Add support for C-style block comments (`/* ... */`)
 
