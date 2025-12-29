@@ -66,4 +66,9 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 ## Classes
 [ ] Define static class members instead of this largely unwieldy and open class structure.
-  * may be a new keyword?:
+  * may be a new keyword?
+
+[ ] Add support for static methods for classes
+
+[ ] Support Getters
+
