@@ -12,24 +12,28 @@ e.speak();
 // Test 2
 
 class Cake {
+
+    init(adj) {
+        this.adjective = adj;
+    }
+    
     taste() {
         var adjective = "delicious";
-//        if (this.adjective != nil) {
-//            adjective = this.adjective;
-//        } else {
-//            adjective = "delicious";
-//        }
+        if (this.adjective != nil) {
+            adjective = this.adjective;
+        } else {
+            adjective = "delicious";
+        }
         print "The " + this.flavor + " cake is " + adjective + "!"; 
     }
 }
 
 print "Processing Cake 1";
-var cake = Cake();
+var cake = Cake(nil);
 cake.flavor = "German chocolate";
 cake.taste();
 
 print "Processing Cake 2";
-var cake2 = Cake();
+var cake2 = Cake("uninspiring");
 cake2.flavor = "Death by chocolate";
-cake2.adjective = "uninspiring";
 cake2.taste();

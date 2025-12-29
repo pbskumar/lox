@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox;
 
+import com.craftinginterpreters.lox.ast.Expr;
 import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
 
@@ -48,6 +49,14 @@ public class Environment {
             return ancestor(hops).values.get(name.lexeme());
         } catch (final RuntimeError error) {
             throw new RuntimeError(name, "Undefined variable '%s'.".formatted(name));
+        }
+    }
+
+    public Object getAt(final Integer hops, final String name) {
+        try {
+            return ancestor(hops).values.get(name);
+        } catch (final RuntimeError error) {
+            throw new RuntimeError("Undefined variable '%s'.".formatted(name));
         }
     }
 
