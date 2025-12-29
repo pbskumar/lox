@@ -20,6 +20,10 @@ public class Environment {
         this.enclosing = environment;
     }
 
+    public Environment getEnclosing() {
+        return enclosing;
+    }
+
     public void define(final String name, final Object value) {
         // Should we or should we not allow double declaration?
         // Book says REPL should allow it.

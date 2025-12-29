@@ -1,0 +1,18 @@
+class Parent {
+    init(name) {
+        this.name = name;
+    }
+    printName() {
+        print this.name;
+    }
+}
+
+class Child < Parent {
+    init(name) {
+        super.init(name);
+    }
+}
+
+var c = Child("Sai");
+
+c.printName();
