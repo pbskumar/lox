@@ -3,6 +3,7 @@ package com.craftinginterpreters.lox.callables.functions;
 import com.craftinginterpreters.lox.Environment;
 import com.craftinginterpreters.lox.ast.Stmt;
 import com.craftinginterpreters.lox.callables.LoxCallable;
+import com.craftinginterpreters.lox.callables.classes.LoxInstance;
 import com.craftinginterpreters.lox.visitors.Interpreter;
 
 import java.util.List;
@@ -43,6 +44,12 @@ public class LoxFunction implements LoxCallable {
     @Override
     public String toString() {
         return "<fn %s>".formatted(declaration.name.lexeme());
+    }
+
+    public Object bind(final LoxInstance instance) {
+        Environment environment = new Environment(closure);
+        environment.define("this", instance);
+        return new LoxFunction(declaration, environment);
     }
 }
 
