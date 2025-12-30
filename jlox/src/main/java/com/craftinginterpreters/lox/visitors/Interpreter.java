@@ -5,6 +5,7 @@ import com.craftinginterpreters.lox.ast.Expr;
 import com.craftinginterpreters.lox.ast.Stmt;
 import com.craftinginterpreters.lox.callables.classes.LoxClass;
 import com.craftinginterpreters.lox.callables.classes.LoxInstance;
+import com.craftinginterpreters.lox.callables.functions.system.numbers.IsEven;
 import com.craftinginterpreters.lox.common.ProblemReporter;
 import com.craftinginterpreters.lox.common.errors.RuntimeError;
 import com.craftinginterpreters.lox.common.token.Token;
@@ -29,6 +30,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     public Interpreter() {
         globals.define("clock", new Clock());
+        globals.define("isEven", new IsEven());
     }
 
     public void interpret(final List<Stmt> statements, final ProblemReporter reporter) {

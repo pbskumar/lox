@@ -21,6 +21,6 @@ public class Clock implements LoxCallable {
 
     @Override
     public String toString() {
-        return "<native fn>";
+        return "<native fn#Clock()>";
     }
 }
