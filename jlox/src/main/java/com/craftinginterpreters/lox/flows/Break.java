@@ -1,0 +1,8 @@
+package com.craftinginterpreters.lox.flows;
+
+public class Break extends RuntimeException {
+
+    public Break() {
+        super(null, null, false, false);
+    }
+}

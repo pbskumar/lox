@@ -15,12 +15,13 @@ while (i < n) {
     while (j < n) {
         print "Inner Loop: #" + j;
 
+        j = j + 1;
+
         // Add break condition if j < limit
         if (j >= limit) {
             break;
         }
 
-        j = j + 1;
     }
     i = i + 1;
     print "";
