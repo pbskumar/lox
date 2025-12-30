@@ -1,0 +1,24 @@
+var i = 0;
+var j = 0;
+var n = 10;
+
+// simulating a break condition
+var limit = 5;
+
+// Outer loop should run completely
+while (i < n) {
+    print "============";
+    print "";
+    print "Outer Loop: #" + i;
+    print "";
+    j = 0;
+    while (j < n) {
+        print "Inner Loop: #" + j;
+
+        // Add break condition if j < limit
+
+        j = j + 1;
+    }
+    i = i + 1;
+    print "";
+}

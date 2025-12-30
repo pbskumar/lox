@@ -29,7 +29,7 @@ Resolving all the methods, classes, scopes for interpreter is a waste of resourc
 Every class/function definition is part of the interpreter environment whether it is used or not.  
 Another inefficiency (not that the book is trying to be efficient), we are loading the entire source code and hold in memory.
 
-The next section **A Bytecode Virtual Machine** would probably address this. (At least based on the title, I'd think so!
+The next section **A Bytecode Virtual Machine** would probably address this. (At least based on the title, I'd think so!)
 
 ## nil handling
 ```
