@@ -29,7 +29,9 @@ public class Scanner {
         keywords = new HashMap<>();
         keywords.put("and", AND);
         keywords.put("break", BREAK);
+        keywords.put("catch", CATCH);
         keywords.put("class", CLASS);
+        keywords.put("continue", CONTINUE);
         keywords.put("do", DO);
         keywords.put("else", ELSE);
         keywords.put("false", FALSE);
@@ -47,6 +49,7 @@ public class Scanner {
         keywords.put("super", SUPER);
         keywords.put("this", THIS);
         keywords.put("true", TRUE);
+        keywords.put("try", TRY);
         keywords.put("val", VAL);
         keywords.put("var", VAR);
         keywords.put("while", WHILE);

@@ -1,0 +1,24 @@
+var i = 0;
+var j = -1;
+var n = 10;
+
+// Outer loop should run completely
+while (i < n) {
+    print "============";
+    print "";
+    print "Outer Loop: #" + i;
+    print "";
+    j = -1;
+    while (j < n) {
+        j = j + 1;
+
+        // Skip if odd
+        if (!isEven(j)) {
+            continue;
+        }
+
+        print "Inner Loop: #" + j;
+    }
+    i = i + 1;
+    print "";
+}

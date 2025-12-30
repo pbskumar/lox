@@ -15,6 +15,7 @@ import com.craftinginterpreters.lox.callables.functions.LoxFunction;
 import com.craftinginterpreters.lox.callables.functions.Return;
 import com.craftinginterpreters.lox.callables.functions.system.time.Clock;
 import com.craftinginterpreters.lox.flows.Break;
+import com.craftinginterpreters.lox.flows.Continue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,7 +133,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitWhileStmt(Stmt.While stmt) {
         try {
             while (isTruthy(evaluate(stmt.condition))) {
-                execute(stmt.body);
+                try {
+                    execute(stmt.body);
+                } catch (final Continue continue_ex) {
+                    // Swallow and move to next iter
+                }
             }
         } catch (final Break break_ex) {
             // swallow the exception and break While execution
@@ -143,6 +148,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitBreakStmt(Stmt.Break stmt) {
         throw new Break();
+    }
+
+    @Override
+    public Void visitContinueStmt(Stmt.Continue stmt) {
+        throw new Continue();
     }
 
     @Override
