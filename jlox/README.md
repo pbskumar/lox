@@ -86,7 +86,8 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 [ ] Differentiate between implicit `nil` (uninitialized variable) vs explicit `nil` (explicit initialization)
 
 ### Control Flow
-[ ] Support `continue`, `break` statements
+[X] Support `break` statement
+[ ] Support `continue` statement
 
 ### Resolving and binding
 [ ] Implement immutable env to use persistent data structures

@@ -17,6 +17,7 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
     private FunctionType currentFunction = FunctionType.NONE;
     private ClassType currentClass = ClassType.NONE;
+    private ControlFlowType currentControlFlow = ControlFlowType.NONE;
 
     public Resolver(final Interpreter interpreter, final ProblemReporter reporter) {
         this.interpreter = interpreter;
@@ -34,6 +35,11 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         NONE,
         CLASS,
         SUBCLASS,
+    }
+
+    private enum ControlFlowType {
+        NONE,
+        WHILE,
     }
 
     @Override
@@ -228,13 +234,21 @@ public class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
+        final ControlFlowType controlFlowType = currentControlFlow;
+        currentControlFlow = ControlFlowType.WHILE;
         resolve(stmt.condition);
         resolve(stmt.body);
+
+        currentControlFlow = controlFlowType;
         return null;
     }
 
     @Override
     public Void visitBreakStmt(Stmt.Break stmt) {
+        if (currentControlFlow == ControlFlowType.NONE) {
+            reporter.error(stmt.keyword, "Can't break from top-level code");
+        }
+
         return null;
     }
 
