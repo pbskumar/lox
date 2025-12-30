@@ -16,6 +16,9 @@ while (i < n) {
         print "Inner Loop: #" + j;
 
         // Add break condition if j < limit
+        if (j >= limit) {
+            break;
+        }
 
         j = j + 1;
     }
