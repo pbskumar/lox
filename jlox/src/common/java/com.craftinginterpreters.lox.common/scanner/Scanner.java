@@ -93,10 +93,22 @@ public class Scanner {
                 addToken(DOT);
                 break;
             case '-':
-                addToken(match('=') ? MINUS_EQUAL : MINUS);
+                if (match('-')) {
+                    addToken(MINUS_MINUS);
+                } else if (match('=')) {
+                    addToken(MINUS_EQUAL);
+                } else {
+                    addToken(MINUS);
+                }
                 break;
             case '+':
-                addToken(match('=') ? PLUS_EQUAL : PLUS);
+                if (match('+')) {
+                    addToken(PLUS_PLUS);
+                } else if (match('=')) {
+                    addToken(PLUS_EQUAL);
+                } else {
+                    addToken(PLUS);
+                }
                 break;
             case ';':
                 addToken(SEMICOLON);
@@ -122,8 +134,10 @@ public class Scanner {
                 // TODO: Handle comments instead of discarding them
                 if (match('/')) {
                     while (peek() != '\n' && ! isAtEnd()) getCharAndAdvance();
+                } else if (match('=')){
+                    addToken(SLASH_EQUAL);
                 } else {
-                    addToken(match('=') ? STAR_EQUAL : SLASH);
+                    addToken(SLASH);
                 }
                 break;
             case '%':

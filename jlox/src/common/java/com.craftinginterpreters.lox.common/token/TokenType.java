@@ -12,7 +12,7 @@ public enum TokenType {
 
     // Compound operators
     // C-style
-    MINUS_PLUS, PLUS_PLUS,
+    MINUS_MINUS, PLUS_PLUS,
     // Python-style augmented assignment
     MINUS_EQUAL, PLUS_EQUAL, SLASH_EQUAL, STAR_EQUAL,
 
