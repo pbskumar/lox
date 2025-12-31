@@ -203,6 +203,10 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 checkNumberOperands(expr.operator, left, right);
                 return (double) left <= (double) right;
             }
+            case MODULUS -> {
+                checkNumberOperands(expr.operator, left, right);
+                return (double) left % (double) right;
+            }
             case MINUS -> {
                 checkNumberOperands(expr.operator, left, right);
                 return (double) left - (double) right;

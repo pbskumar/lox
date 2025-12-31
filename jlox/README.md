@@ -76,7 +76,7 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 [ ] Add basic library functions:
   * think about what makes sense to add.
 
-[ ] Support modulus (`%`) operator
+[X] Support modulus (`%`) operator
 
 [ ] Support data structures like List, Set, etc.
   * I'd rather start with Boxed types instead of native grammar support. 
