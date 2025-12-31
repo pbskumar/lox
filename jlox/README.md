@@ -87,13 +87,13 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 ### Control Flow
 [X] Support `break` statement
+
 [X] Support `continue` statement
 
 ### Resolving and binding
 [ ] Implement immutable env to use persistent data structures
 
 [ ] Extend resolver to report error if local variable is never used
-
 
 ## Classes
 [ ] Define static class members instead of this largely unwieldy and open class structure.
