@@ -13,18 +13,6 @@ import java.util.List;
 
 import static com.craftinginterpreters.lox.common.token.TokenType.*;
 
-/**
- *  expression      -> equality ;
- *  equality        -> comparison ( ( "!=" | "==" ) comparison )* ;
- *  comparison      -> term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
- *  term            -> factor ( ( "-" | "+" ) factor )* ;
- *  factor          -> unary ( ( "/" | "* " ) unary )* ;
- *  unary           -> ( "!" | "-" ) unary
- *                  | primary ;
- *  primary         -> NUMBER | STRING | "true" | "false" | "nil"
- *                  | "(" expression ")" ;
- */
-
 public class Parser {
 
     public static final int FN_MAX_ARG_COUNT = 255;
