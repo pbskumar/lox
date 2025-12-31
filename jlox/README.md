@@ -59,7 +59,7 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
   * Pre
   * Post
 
-[ ] Support Python style `+=`, `-=`, `*=`, `/=` 
+[X] Support Python style `+=`, `-=`, `*=`, `/=` 
 
 [ ] Supporting import statements
 

@@ -13,4 +13,8 @@ public record Token (
     public String toString() {
         return type + " " + lexeme + " " + literal;
     }
+
+    public Token withType(TokenType type) {
+        return new Token(type, lexeme, literal, line);
+    }
 }

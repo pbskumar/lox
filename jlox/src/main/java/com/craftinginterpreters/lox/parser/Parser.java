@@ -172,9 +172,17 @@ public class Parser {
     private Expr assignment() {
         Expr expr = or();
 
-        if (match(EQUAL)) {
-            Token equals = previous();
-            Expr value = assignment();
+        if (match(EQUAL, MINUS_EQUAL, PLUS_EQUAL, STAR_EQUAL, SLASH_EQUAL)) {
+            Token operator = previous();
+            Expr value = switch (operator.type()) {
+                case MINUS_EQUAL -> new Expr.Binary(expr, operator.withType(MINUS), assignment());
+                case PLUS_EQUAL -> new Expr.Binary(expr, operator.withType(PLUS), assignment());
+                case STAR_EQUAL -> new Expr.Binary(expr, operator.withType(STAR), assignment());
+                case SLASH_EQUAL -> new  Expr.Binary(expr, operator.withType(SLASH), assignment());
+                case EQUAL -> assignment();
+                // Realistically this is not possible unless we change the top level match condition
+                default -> throw new IllegalStateException("Unexpected value: " + operator.type());
+            };
 
             if (expr instanceof Expr.Variable) {
                 Token name = ((Expr.Variable) expr).name;
@@ -183,7 +191,7 @@ public class Parser {
                 return new Expr.Set(getterExpr.object, getterExpr.name, value);
             }
 
-            error(equals, "Invalid assignment target");
+            error(operator, "Invalid assignment target");
         }
         return expr;
     }

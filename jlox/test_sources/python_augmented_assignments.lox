@@ -19,3 +19,7 @@ print "value of i after (i *= 7): " + i + ". Expected: 21. Computed correctly: "
 
 i /= 3;
 print "value of i after (i /= 3): " + i + ". Expected: 7. Computed correctly: " + assert(7, i);
+
+var str_val = "hello";
+str_val += 5;
+print "value of str_val += 5: " + str_val;
