@@ -93,16 +93,16 @@ public class Scanner {
                 addToken(DOT);
                 break;
             case '-':
-                addToken(MINUS);
+                addToken(match('=') ? MINUS_EQUAL : MINUS);
                 break;
             case '+':
-                addToken(PLUS);
+                addToken(match('=') ? PLUS_EQUAL : PLUS);
                 break;
             case ';':
                 addToken(SEMICOLON);
                 break;
             case '*':
-                addToken(STAR);
+                addToken(match('=') ? STAR_EQUAL : STAR);
                 break;
             case '!':
                 addToken(match('=') ? BANG_EQUAL : BANG);
@@ -123,8 +123,11 @@ public class Scanner {
                 if (match('/')) {
                     while (peek() != '\n' && ! isAtEnd()) getCharAndAdvance();
                 } else {
-                    addToken(SLASH);
+                    addToken(match('=') ? STAR_EQUAL : SLASH);
                 }
+                break;
+            case '%':
+                addToken(MODULUS);
                 break;
 
             case ' ':
