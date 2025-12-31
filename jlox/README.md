@@ -78,6 +78,10 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 [ ] Support modulus (`%`) operator
 
+[ ] Support data structures like List, Set, etc.
+  * I'd rather start with Boxed types instead of native grammar support. 
+  * Honestly, may not get to this until I get to `import` and native libraries
+
 ### Scanning
 [ ] Add support for C-style block comments (`/* ... */`)
 
