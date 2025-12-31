@@ -1,0 +1,21 @@
+fun assert(expected, actual) {
+    return expected == actual;
+}
+
+var i = 0;
+
+// Simple test case for assert before we use it.
+print "Checking assert (1==1): " + assert(1,1);
+print "Checking assert (1==5): " + assert(1,5);
+
+i += 5;
+print "value of i after (i += 5): " + i + ". Expected: 5. Computed correctly: " + assert(5, i);
+
+i -= 2;
+print "value of i after (i -= 2): " + i + ". Expected: 3. Computed correctly: " + assert(3, i);
+
+i *= 7;
+print "value of i after (i *= 7): " + i + ". Expected: 21. Computed correctly: " + assert(21, i);
+
+i /= 3;
+print "value of i after (i /= 3): " + i + ". Expected: 7. Computed correctly: " + assert(7, i);
