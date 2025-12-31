@@ -56,6 +56,10 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
   * Will come back to implement comment handling correctly.
 
 [ ] Support C style `++` and `--`
+  * Pre
+  * Post
+
+[ ] Support Python style `+=`, `-=`, `*=`, `/=` 
 
 [ ] Supporting import statements
 
@@ -71,6 +75,8 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 
 [ ] Add basic library functions:
   * think about what makes sense to add.
+
+[ ] Support modulus (`%`) operator
 
 ### Scanning
 [ ] Add support for C-style block comments (`/* ... */`)
