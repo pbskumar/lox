@@ -1,5 +1,8 @@
 package com.craftinginterpreters.lox.common.token;
 
+import java.util.Map;
+import java.util.Set;
+
 public enum TokenType {
 
     // Single character tokens
@@ -24,5 +27,12 @@ public enum TokenType {
     NIL, NULL, OR, PRINT, RETURN, SUPER, THIS, TRUE, TRY, VAL, VAR, WHILE,
 
     COMMENT,
-    EOF
+    EOF;
+
+    public static final Map<TokenType, TokenType> OPEN_TO_CLOSE_TOKEN_TYPE_PAIR = Map.of(
+            LEFT_PAREN, RIGHT_PAREN,
+            LEFT_BRACE, RIGHT_BRACE
+    );
+
+    public static final Set<TokenType> CONTINUATION_TOKEN_TYPES = Set.of(LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE);
 }

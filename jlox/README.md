@@ -68,8 +68,12 @@ Will get to implement them after I finish the Tree-Walk Interpreter part of the 
 [ ] Add test suite for all features in exec mode and REPL mode.
 
 [ ] `RuntimeError` kills the REPL runtime :(
+    
+  * Unable to reproduce now. 
 
-[ ] Allow multi-line input in REPL
+[X] Allow multi-line input in REPL
+
+[ ] Print return interactively in REPL instead of ignoring.
 
 [ ] Basic exception handling
 
